@@ -19,6 +19,7 @@ public class FloatRangeSliderDrawer : PropertyDrawer
 		SerializedProperty maxProperty = property.FindPropertyRelative("max");
 		float minValue = minProperty.floatValue;
 		float maxValue = maxProperty.floatValue;
+
 		float fieldWidth = position.width / 4f - 4f;
 		float sliderWidth = position.width / 2f;
 		position.width = fieldWidth;

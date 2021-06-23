@@ -7,11 +7,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class Game : PersistableObject {
 
-	const int saveVersion = 4;
-
-
-
-	[SerializeField] ShapeFactory shapeFactory;
+	const int saveVersion = 5;
 
 	[SerializeField] KeyCode createKey = KeyCode.C;
 	[SerializeField] KeyCode destroyKey = KeyCode.X;
@@ -117,7 +113,7 @@ public class Game : PersistableObject {
 		destructionSpeedSlider.value = DestructionSpeed = 0;
 
 		for (int i = 0; i < shapes.Count; i++) {
-			shapeFactory.Reclaim(shapes[i]);
+			shapes[i].Recycle();
 		}
 		shapes.Clear();
 	}
@@ -162,24 +158,23 @@ public class Game : PersistableObject {
 
 		for (int i = 0; i < count; i++)
 		{
+			int factoryId = version >= 5 ? reader.ReadInt() : 0;
 			int shapeId = version > 0 ? reader.ReadInt() : 0;
 			int materialId = version > 0 ? reader.ReadInt() : 0;
-			Shape instance = shapeFactory.Get(shapeId, materialId);
+			Shape instance = shapeFactories[factoryId].Get(shapeId, materialId);
 			instance.Load(reader);
 			shapes.Add(instance);
 		}
 	}
 
 	void CreateShape () {
-		Shape instance = shapeFactory.GetRandom();
-		GameLevel.Current.ConfigureSpawn(instance);
-		shapes.Add(instance);
+		shapes.Add(GameLevel.Current.SpawnShape());
 	}
 
 	void DestroyShape () {
 		if (shapes.Count > 0) {
 			int index = Random.Range(0, shapes.Count);
-			shapeFactory.Reclaim(shapes[index]);
+			shapes[index].Recycle();
 			int lastIndex = shapes.Count - 1;
 			shapes[index] = shapes[lastIndex];
 			shapes.RemoveAt(lastIndex);
@@ -196,6 +191,7 @@ public class Game : PersistableObject {
 		writer.Write(loadedLevelBuildIndex);
 		GameLevel.Current.Save(writer);
 		for (int i = 0; i < shapes.Count; i++) {
+			writer.Write(shapes[i].OriginFactory.FactoryId);
 			writer.Write(shapes[i].ShapeId);
 			writer.Write(shapes[i].MaterialId);
 			shapes[i].Save(writer);
@@ -211,5 +207,16 @@ public class Game : PersistableObject {
 		StartCoroutine(LoadGame(reader));
 	}
 
+	[SerializeField] ShapeFactory[] shapeFactories;
+	void OnEnable()
+	{
+		if (shapeFactories[0].FactoryId != 0)
+		{
+			for (int i = 0; i < shapeFactories.Length; i++)
+			{
+				shapeFactories[i].FactoryId = i;
+			}
+		}
+	}
 
 }

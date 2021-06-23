@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.46170855, g: 0.5124294, b: 0.5899387, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000004, guid: a3d72f67318904c77bbd25d3516f1220,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -260,7 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 751a150eed9dd4fed859e8940f91bbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapeFactory: {fileID: 11400000, guid: c41f98beca71049adb1f8d789c12b2d2, type: 2}
   createKey: 99
   destroyKey: 120
   newGameKey: 110
@@ -269,8 +269,11 @@ MonoBehaviour:
   creationSpeedSlider: {fileID: 1247886085}
   destructionSpeedSlider: {fileID: 2050843676}
   storage: {fileID: 1960016661}
-  levelCount: 4
+  levelCount: 5
   reseedOnLoad: 0
+  shapeFactories:
+  - {fileID: 11400000, guid: c41f98beca71049adb1f8d789c12b2d2, type: 2}
+  - {fileID: 11400000, guid: 8f6097dd9e9c54cb2b8df0bc72a9387d, type: 2}
 --- !u!4 &145765154
 Transform:
   m_ObjectHideFlags: 0
@@ -523,7 +526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858403635}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: -3.15, y: 1, z: -18.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
